@@ -1,7 +1,7 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
-/var/lib/jenkins/workspace/sigfridPipeline
+#/var/lib/jenkins/workspace/sigfridPipeline
 echo funciona por favor....................................................................................................................................................
 
 cd /var/lib/jenkins/workspace/sigfridPipeline/libreria && mvn clean install
