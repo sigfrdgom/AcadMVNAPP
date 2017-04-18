@@ -23,7 +23,7 @@
 
 if [  `git rev-parse --abbrev-ref HEAD` == "master" ]; 
    then
-      sh /home/sigfrid/tarea2/localPipeline.sh
+      sh /home/sigfrid/acadMVNAPP/localPipeline.sh
 
 elif [ `git rev-parse --abbrev-ref HEAD` ==  "Sigfid" ]; 
    then
