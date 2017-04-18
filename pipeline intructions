@@ -1,0 +1,123 @@
+instalar los servidores y herramientas ssh
+apt-get install openssh-server openssh-client
+tener instalado git, docker compose, docker engine, maven en la maquina local
+en el directorio del proyecto, nombre del proyecto entreprise/.git/hooks  donde estas las 3 carpetas
+buscar la carpeta oculta .git $ls -la && cd .git/hooks/
+crear el hook de post-commit
+$nano post-commit 
+
+copiar dentro de:
+
+#!/bin/sh
+# client-side hook to deploy aplication java/MVN to docker-compose glassfish container
+#By GG13008 gg13008@ues.edu.sv 
+#Aca empieza el desvergue :'v
+#$PATHmvn=/home/sigfrid/tarea2
+#$PATHgls=/home/sigfrid/tarea2/compose/glassfish
+#$PATHtrg=/home/sigfrid/tarea2/Acad/CasosAcadAppMvn-ear/target
+#$PATHcmp=/home/sigfrid/tarea2/compose
+#sh /home/sigfrid/tarea2/localPipeline.sh
+
+echo funciona por favor...................................
+cd /home/sigfrid/tarea2/nS && mvn clean install
+echo termino libreria
+cd /home/sigfrid/tarea2/Acad &&mvn clean install
+echo termino enterprise
+cd /home/sigfrid/tarea2/Acad/CasosAcadAppMvn-ear/target/ && cp CasosAcadAppMvn-ear-1.0-SNAPSHOT.ear /home/sigfrid/tarea2/compose/glassfish/
+echo copio el ear
+cd /home/sigfrid/tarea2/compose/ && docker-compose stop
+echo error si no esta activo
+docker rm compose_glassfish_1
+echo eliminando viejo contenedor
+cd /home/sigfrid/tarea2/compose/glassfish/ && ./glass.sh
+echo contruyendo la nueva imagen
+cd /home/sigfrid/tarea2/compose/ && docker-compose up
+echo finalizo con exito
+
+
+
+luego de copiar dentro del hook darle permisos
+chmod +x post-commit
+estaria listo el client-side hook(falta validacion de branches)
+lo que hace es compilar los proyectos mvn de la libreria y aplicacion, asi como copiar el ear a la carpeta destinada para contrir una nuevaimagen que sera orquestada con el compose
+
+
+
+
+ahora que ya tenemos esto hay que revisar la maquina que hospedara el servidor(i7 de pache) :v
+hay que comprobar la ip con la cual esta conectada al moden o al punto de acceso
+#ifconfig wlan 0 y revisar normalmente es algo como 172.168.1.2 o algo asi
+por defecto ssh no acepta conexion remota a root por lo que hay que tener presente el usuario de trabajo normal (edd) en el caso de pache (debian) en el caso de suncin
+
+para testear la conexion se podria usar el comando 
+ssh -l edd -p 222 192.168.1.6 (revisar la ip)
+pedira autorizacion decir que si
+y luego ingresar la contraseña del usuario normal
+
+una vez ahi adentro hay que configurar una carpeta en la cual se guadara los archivos del lo que
+ha de usarse
+
+/home/edd/servidor/
+
+dentro de la cual podria estar 
+libreria/ 
+compose/
+proyecto/
+
+dentro de proyecto que es la capa cambiante es donde se seteara el repo remoto
+#git init --bare repo.git
+
+dentro de este repo hay que configurar el server-side hook que en este caso es el post-recive
+El ejemplo esta en la maquina de suncin en la carpeta servirod que le quedo en home :v
+la onda que toman ese hook copian el contenido, correctamente modifica al entorno de trabajo
+le dan persimos de ejecucion y ya esta
+deberia de estar en la carpeta 
+repo.git/hooks/
+
+ahora en el repositorio local el .git en la carpeta del proyecto enterprise donde hay 3 carpetas y un pom
+hay que hacer un commit
+$git add *
+$git commit -m "esta mier tiene que decir algo " (falta el comando de la branch)
+
+se hace el commit esto deberia de desencadenar el hook de post conmit y levantaria el compose
+
+$ git remote add servidorPache edd@192.168.1.6:/home/edd/servidor/proyecto/repo.git
+
+servidorPache puede ser el nombre de eleccion y aca se configura el repositorio remoto para recibir push
+
+si ya se hixo el commit se pede hacer el push
+
+$ git push servidorPache Sigfid 
+
+aca se hace push con el identificador del remoto ya configurado y al final el nombre de la branch 
+a pushear :v pedira contraseña del servidor "tutepones" y si todo esta bien, hara el push del repo local
+al remoto y desencadenara el hook de post-receive que deberia de levnatar el compose
+
+
+
+Nota los compose para pache son 172.18.0.1 gateway y .2 en adelante para contenedores
+ 
+ configurar bien las ip y los puertos de las imagenes que pache tiene ocupado el 3306 y yo ocupe el 3307
+ asi como el 8080 8181 y 4848 para su glassfish local y yo use el 8081 8182 y 4849 para mis pruebas
+ 
+ si no estoy mal en la carpeta servidor de la i7 y la maquina de suncin esta los dockerfiles listo para comidifcar
+ y  hay que modificar tambien el .yml de compose 
+ y pues esto seria todo
+ 
+ 
+ 
+ nel falta
+ si quiere copiar archivos desde una maquina a otra usando ssh
+ podira ser para copiar los archivos de su local al remoto como yo lo hice se puede usar
+ $scp -r /home/Sigfid/carpeta edd@192.168.1.6:/home/edd/servidor
+ 
+ y se copiaran la carpeta especificada
+ y pues, si alguien quiere colaborar con jenkins y ese desmadre con gusto se acepta
+ 
+
+
+
+
+
+
+
