@@ -21,11 +21,11 @@
 #Aca empieza el desvergue :'v
 
 
-if [  `git rev-parse --abbrev-ref HEAD` == "master" ]; 
+if [  `git rev-parse --abbrev-ref HEAD` == "production" ]; 
    then
       sh /home/sigfrid/acadMVNAPP/localPipeline.sh
 
-elif [ `git rev-parse --abbrev-ref HEAD` ==  "Sigfid" ]; 
+elif [ `git rev-parse --abbrev-ref HEAD` ==  "development" ]; 
    then
    echo "staging-script"
 fi
