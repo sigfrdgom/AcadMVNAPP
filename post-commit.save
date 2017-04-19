@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# An example hook script to check the commit log message.
+# Called by "git commit" with one argument, the name of the file
+# that has the commit message.  The hook should exit with non-zero
+# status after issuing an appropriate message if it wants to stop the
+# commit.  The hook is allowed to edit the commit message file.
+#
+# To enable this hook, rename this file to "commit-msg".
+
+# Uncomment the below to add a Signed-off-by line to the message.
+# Doing this in a hook is a bad idea in general, but the prepare-commit-msg
+# hook is more suited to it.
+#
+# SOB=$(git var GIT_AUTHOR_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/p')
+# grep -qs "^$SOB" "$1" || echo "$SOB" >> "$1"
+
+# client-side hook to deploy aplication java/MVN to docker-compose glassfish container
+#By GG13008 gg13008@ues.edu.sv
+
+#Aca empieza el desvergue :'v
+
+
+if [  `git rev-parse --abbrev-ref HEAD` == "production" ];
+   then
+      sh /home/sigfr
+id//localPipeline.sh
+
+elif [ `git rev-parse --abbrev-ref HEAD` ==  "development" ];
+   then
+   echo "staging-script"
+fi
+
+#elif [`git rev-parse --abbrev-ref HEAD` `git rev-parse --abbrev-ref HEAD` == "production" ]; then
+#  echo "production-script"
+
+
+
+
+
+#$PATHmvn=/home/sigfrid/tarea2
+#$PATHgls=/home/sigfrid/tarea2/compose/glassfish
+#$PATHtrg=/home/sigfrid/tarea2/Acad/CasosAcadAppMvn-ear/target
+#$PATHcmp=/home/sigfrid/tarea2/compose
+#sh /home/sigfrid/tarea2/localPipeline.sh
+#echo funciona por favor.....................................................................................................................
+#cd /home/sigfrid/tarea2/nS && mvn clean install
+#echo termino libreria
+#cd /home/sigfrid/tarea2/Acad &&mvn clean install
+#echo termino enterprise
+#cd /home/sigfrid/tarea2/Acad/CasosAcadAppMvn-ear/target/ && cp CasosAcadAppMvn-ear-1.0-SNAPSHOT.ear /home/sigfrid/tarea2/compose/glassfish/
+#echo copio el ear
+#cd /home/sigfrid/tarea2/compose/ && docker-compose stop
+#echo error si no esta activo
+#docker rm compose_glassfish_1
+#echo eliminando viejo contenedor
+#cd /home/sigfrid/tarea2/compose/glassfish/ && ./glass.sh
+#echo contruyendo la nueva imagen
+#cd /home/sigfrid/tarea2/compose/ && docker-compose up
+#echo finalizo con exito
+
