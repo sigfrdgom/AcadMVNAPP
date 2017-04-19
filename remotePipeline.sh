@@ -4,11 +4,12 @@
 #/var/lib/jenkins/workspace/sigfridPipeline
 echo funciona por favor....................................................................................................................................................
 
-cd /var/lib/jenkins/workspace/sigfridPipeline/libreria && mvn clean install
+#cd /var/lib/jenkins/workspace/sigfridPipeline/libreria && mvn clean install
 echo termino libreria
 cd /var/lib/jenkins/workspace/sigfridPipeline/proyecto && mvn clean install
 echo termino enterprise
-cd /var/lib/jenkins/workspace/sigfridPipeline/proyecto/CasosAcadAppMvn-ear/target/ && cp CasosAcadAppMvn-ear-1.0-SNAPSHOT.ear /var/lib/jenkins/workspace/sigfridPipeline/compose/glassfish/
+cd /var/lib/jenkins/workspace/sigfridPipeline/proyecto/CasosAcadAppMvn-ear/target/
+cp CasosAcadAppMvn-ear-1.0-SNAPSHOT.ear /var/lib/jenkins/workspace/sigfridPipeline/compose/glassfish/
 echo copio el ear
 cd /var/lib/jenkins/workspace/sigfridPipeline/compose/
 #docker-compose stop
