@@ -1,9 +1,4 @@
-asdasdasdasd
-zafsdf
-
-sdasdfsdfsd
-asdfasdaadsas
-asdfasfdasdfmodificacion
+sdfasfdasdfmodificacion
 instalar los servidores y herramientas ssh
 apt-get install openssh-server openssh-client
 tener instalado git, docker compose, docker engine, maven en la maquina local
